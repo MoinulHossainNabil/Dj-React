@@ -1,0 +1,15 @@
+.ui {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.field {
+    width: 60%;
+}
+.primary {
+    width: 20%;
+}
+label {
+    text-align: left;
+}

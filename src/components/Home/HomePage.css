@@ -1,0 +1,24 @@
+.main-container {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+.category {
+    flex-basis: 25%;
+}
+ul {
+    list-style: none;
+}
+.job-list {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    text-align: left;
+}
+
+@media screen and (max-width: 665px){
+    .job-list {
+        flex-direction: column;
+    }
+    
+}

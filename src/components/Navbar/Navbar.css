@@ -1,0 +1,24 @@
+nav {
+    background-color: black;
+    opacity: .7;
+    padding-bottom: 2rem;
+}
+nav ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    list-style: none;
+
+}
+nav ul li {
+    color: white;
+    font-size: large;
+    flex: 0 0 auto;
+}
+
+@media screen and (max-width: 600px){
+    nav ul {
+        flex-direction: column;
+    }
+}
