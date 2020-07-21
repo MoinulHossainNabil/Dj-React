@@ -1,0 +1,17 @@
+.jobPostForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+label {
+    float: left;
+    font-weight: bold;
+}
+
+@media screen and (max-width:600px) {
+    .jobPostForm {
+        flex: 0 1 auto;
+    }
+}
