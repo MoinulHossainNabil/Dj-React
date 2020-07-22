@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./HomePage.css";
 import Category from "../Category/Category";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 class HomePage extends Component {
   constructor(props) {
@@ -14,40 +15,15 @@ class HomePage extends Component {
     this.filterByCategory = this.filterByCategory.bind(this);
   }
   componentDidMount() {
-    const data = [
-      {
-        job_id: 1,
-        post_name: "Software Engineer",
-        company: "Google Inc",
-        experiecne: 2,
-        posted: new Date().toDateString(),
-        deadline: new Date(
-          new Date().setMonth(new Date().getMonth() + 1)
-        ).toDateString(),
-      },
-      {
-        job_id: 2,
-        post_name: "Software Developer",
-        company: "Mozila Corp",
-        experiecne: 1,
-        posted: new Date().toDateString(),
-        deadline: new Date(
-          new Date().setMonth(new Date().getMonth() + 1)
-        ).toDateString(),
-      },
-      {
-        job_id: 3,
-        post_name: "Database Administrator",
-        company: "Microsoft",
-        experiecne: 5,
-        posted: new Date().toDateString(),
-        deadline: new Date(
-          new Date().setMonth(new Date().getMonth() + 1)
-        ).toDateString(),
-      },
-    ];
-    this.setState({ job_list: data });
-    console.log("homepage did mount");
+    axios
+    .get("http://localhost:8000/api/list_job/")
+    .then(response => {
+      console.log(response.data)
+      this.setState({job_list: response.data})
+    })
+    .catch(e => {
+      console.log(e)
+    })
   }
 
   filterByCategory(category_name) {
@@ -56,31 +32,31 @@ class HomePage extends Component {
   render() {
     const { job_list } = this.state;
     const listofJobs = job_list.map((job) => (
-      <li className="single-job" key={job.job_id}>
+      <li className="single-job" key={job.id}>
         <div>
-          <Link to={`job/${job.job_id}`}>
-            <h3>{job.post_name}</h3>
+          <Link to={`job/${job.id}`}>
+            <h3>{job.job_title}</h3>
           </Link>
         </div>
         <div>
-          <h4>Company: {job.company}</h4>
+          <h4>Company: {job.company_name}</h4>
         </div>
         <div>
           <p>
             <strong>Experience: </strong>
-            {job.experiecne}
+            {job.experience}
           </p>
         </div>
         <div>
           <p>
             <strong>Posted On: </strong>
-            {job.posted}
+            {new Date(job.posted_on).toDateString()}
           </p>
         </div>
         <div>
           <p>
             <strong>Deadline: </strong>
-            {job.deadline}
+            {new Date(job.deadline).toDateString()}
           </p>
         </div>
       </li>

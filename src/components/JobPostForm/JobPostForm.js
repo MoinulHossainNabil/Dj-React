@@ -7,13 +7,14 @@ export default class JobPostForm extends Component {
     super(props);
 
     this.state = {
-      jobTitle: "",
-      company: "",
-      category: "",
+      job_title: "",
+      company_name: "",
+      job_description: "",
+      job_category: "",
       experience: "",
       address: "",
-      stateName: "",
-      jobDescription: "",
+      state: "",
+      deadline: "",
     };
     this.handleFormSubmit = this.handleFormSubmit.bind(this);
   }
@@ -28,11 +29,11 @@ export default class JobPostForm extends Component {
   handleFormSubmit = (e) => {
     e.preventDefault();
     // Api call
-    // console.log(this.state);
+    console.log(this.state);
   };
 
   componentDidMount() {
-      console.log("Job Post Mounted")
+    console.log("Job Post Mounted");
   }
 
   render() {
@@ -43,13 +44,14 @@ export default class JobPostForm extends Component {
     //   return <Redirect to="login" />;
     // }
     const {
-      jobTitle,
-      company,
-      category,
+      job_title,
+      company_name,
+      job_description,
+      job_category,
       experience,
       address,
-      stateName,
-      jobDescription,
+      state,
+      deadline,
     } = this.state;
     return (
       <div>
@@ -59,7 +61,7 @@ export default class JobPostForm extends Component {
             <input
               type="text"
               name="jobTitle"
-              value={jobTitle}
+              value={job_title}
               onChange={this.handleChange}
               className="form-control"
               id="jobTitle"
@@ -72,7 +74,7 @@ export default class JobPostForm extends Component {
             <input
               type="text"
               name="company"
-              value={company}
+              value={company_name}
               onChange={this.handleChange}
               className="form-control"
               id="inputCompany"
@@ -88,7 +90,7 @@ export default class JobPostForm extends Component {
               id="jobDescription"
               rows="3"
               name="jobDescription"
-              value={jobDescription}
+              value={job_description}
               onChange={this.handleChange}
             ></textarea>
           </div>
@@ -97,7 +99,7 @@ export default class JobPostForm extends Component {
             <select
               id="inputCategory"
               className="form-control"
-              value={category}
+              value={job_category}
               name="category"
               onChange={this.handleChange}
               // required
@@ -133,11 +135,22 @@ export default class JobPostForm extends Component {
             />
           </div>
           <div className="form-group col-md-6">
+            <label htmlFor="inputDeadline">Deadline</label>
+            <input
+              type="datetime-local"
+              name="deadline"
+              value={deadline}
+              onChange={this.handleChange}
+              className="form-control"
+              id="inputDeadline"
+            />
+          </div>
+          <div className="form-group col-md-6">
             <label htmlFor="inputState">State</label>
             <select
               id="inputState"
               className="form-control"
-              value={stateName}
+              value={state}
               name="stateName"
               onChange={this.handleChange}
               // required

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 export default class Category extends Component {
   constructor(props) {
     super(props);
@@ -8,23 +9,14 @@ export default class Category extends Component {
     };
   }
   componentDidMount() {
-    this.setState({
-      category: [
-        {
-          id: 1,
-          name: "IT And Telecommunication",
-        },
-        {
-          id: 2,
-          name: "Business Administration",
-        },
-        {
-          id: 3,
-          name: "Civil Engineering",
-        },
-      ],
-    });
-    console.log("category did mount");
+    axios
+      .get("http://localhost:8000/api/list_category/")
+      .then((response) => {
+        this.setState({ category: response.data });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
   render() {
@@ -38,10 +30,10 @@ export default class Category extends Component {
           <div className="categoryName">
             <button
               onClick={() => {
-                this.props.categoryFilter(`${cat.name}`);
+                this.props.categoryFilter(`${cat.job_category}`);
               }}
             >
-              {cat.name}
+              {cat.job_category}
             </button>
           </div>
         </div>
