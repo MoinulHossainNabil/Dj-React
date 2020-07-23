@@ -32,7 +32,9 @@ class LoginForm extends Component {
         console.log("response status", respone.data);
         this.setState({ loginStatus: true });
         const token = respone.data["access"];
+        const user_id = respone.data["user_id"];
         localStorage.setItem("access-token", token);
+        localStorage.setItem("user_id", user_id);
         this.props.history.push("/");
         this.props.handleLogin(true);
       })
@@ -43,7 +45,7 @@ class LoginForm extends Component {
 
   render() {
     const { username, password } = this.state;
-    if (localStorage.getItem("access-token")) {
+    if (this.props.loggedInStatus) {
       return <Redirect to="/" />;
     }
     return (

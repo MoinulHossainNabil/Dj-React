@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import "./App.css";
 import { BrowserRouter as Router } from "react-router-dom";
-import { Route, Switch } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import RegisterForm from "./components/Register/RegisterForm";
 import LoginForm from "./components/Login/LoginForm";
 import HomePage from "./components/Home/HomePage";
 import Routes from "./components/Routers/Routes";
 import NavigationBar from "./components/Navbar/Navbar";
-import JobPostForm from './components/JobPostForm/JobPostForm'
+import JobPostForm from "./components/JobPostForm/JobPostForm";
 
 class App extends Component {
   constructor(props) {
@@ -15,20 +15,29 @@ class App extends Component {
 
     this.state = {
       isUserLoggedIn: false,
+      token: "",
+      user_id: "",
     };
     this.handleLogin = this.handleLogin.bind(this);
   }
   handleLogin(value) {
-    console.log("before login", this.state.isUserLoggedIn);
     // console.log("call after login successful", value)
     this.setState({ isUserLoggedIn: value });
-    console.log("after login", this.state.isUserLoggedIn);
+    console.log("logged in");
   }
   handleLogout = (e) => {
-    // this.setState({isUserLoggedIn: false})
-    // localStorage.removeItem("access-token")
+    this.setState({ isUserLoggedIn: false });
+    localStorage.removeItem("access-token");
     console.log("logged out");
   };
+  componentDidMount() {
+    console.log("app did mount");
+    if (localStorage.getItem("access-token")) {
+      this.setState({ isUserLoggedIn: true });
+    } else {
+      this.setState({ isUserLoggedIn: false });
+    }
+  }
 
   render() {
     return (
@@ -36,6 +45,7 @@ class App extends Component {
         <NavigationBar
           {...this.props}
           loggedInStatus={this.state.isUserLoggedIn}
+          handleLogout={this.handleLogout}
         />
         <div className="App">
           <Route

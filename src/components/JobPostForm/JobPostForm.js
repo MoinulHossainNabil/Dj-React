@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import axios from "axios";
 import "./JobPostForm.css";
 
 export default class JobPostForm extends Component {
@@ -10,7 +11,7 @@ export default class JobPostForm extends Component {
       job_title: "",
       company_name: "",
       job_description: "",
-      job_category: "",
+      category: "",
       experience: "",
       address: "",
       state: "",
@@ -23,13 +24,29 @@ export default class JobPostForm extends Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
-    console.log(e.target.name, e.target.value);
   };
 
   handleFormSubmit = (e) => {
     e.preventDefault();
-    // Api call
-    console.log(this.state);
+    const token = localStorage.getItem("access-token");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    this.state.category = Number("1");
+    const data = { ...this.state };
+    data["posted_by"] = Number(localStorage.getItem("user_id"));
+    console.log("data to be posted", data);
+    // axios
+    // .post("http://localhost:8000/api/post_job/", this.state, config)
+    // .then(respone => {
+    //   console.log("posted", respone.data)
+    // })
+    // .catch(e => {
+    //   console.log("Error", e)
+    // })
   };
 
   componentDidMount() {
@@ -37,17 +54,14 @@ export default class JobPostForm extends Component {
   }
 
   render() {
-    //   if(localStorage.getItem("access-token") ===null){
-    //       return <Redirect to="login" />
-    //   }
-    // if (!this.props.loggedInStatus) {
-    //   return <Redirect to="login" />;
-    // }
+    if (!this.props.loggedInStatus) {
+      return <Redirect to="login" />;
+    }
     const {
       job_title,
       company_name,
       job_description,
-      job_category,
+      category,
       experience,
       address,
       state,
@@ -60,7 +74,7 @@ export default class JobPostForm extends Component {
             <label htmlFor="jobTitle">Job Title</label>
             <input
               type="text"
-              name="jobTitle"
+              name="job_title"
               value={job_title}
               onChange={this.handleChange}
               className="form-control"
@@ -73,7 +87,7 @@ export default class JobPostForm extends Component {
             <label htmlFor="inputCompany">Company</label>
             <input
               type="text"
-              name="company"
+              name="company_name"
               value={company_name}
               onChange={this.handleChange}
               className="form-control"
@@ -89,7 +103,7 @@ export default class JobPostForm extends Component {
               className="form-control"
               id="jobDescription"
               rows="3"
-              name="jobDescription"
+              name="job_description"
               value={job_description}
               onChange={this.handleChange}
             ></textarea>
@@ -99,8 +113,8 @@ export default class JobPostForm extends Component {
             <select
               id="inputCategory"
               className="form-control"
-              value={job_category}
               name="category"
+              value={category}
               onChange={this.handleChange}
               // required
             >
@@ -151,7 +165,7 @@ export default class JobPostForm extends Component {
               id="inputState"
               className="form-control"
               value={state}
-              name="stateName"
+              name="state"
               onChange={this.handleChange}
               // required
             >

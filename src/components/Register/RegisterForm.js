@@ -22,7 +22,7 @@ class RegisterForm extends Component {
   };
 
   handleSubmit = (e) => {
-    const {username, email, password1, password2} = this.state
+    const { username, email, password1, password2 } = this.state;
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -33,23 +33,23 @@ class RegisterForm extends Component {
       username: username,
       email: email,
       password1: password1,
-      password2: password2
+      password2: password2,
     };
     e.preventDefault();
     axios
       .post("http://localhost:8000/accounts/register/", user, config)
       .then((response) => {
         console.log(response);
-        this.props.history.push('/login')
+        this.props.history.push("/login");
       })
       .catch((e) => {
         // console.log(e.response.status);
-        alert(`${e.response.data['response']}`)
+        alert(`${e.response.data["response"]}`);
       });
   };
 
   render() {
-    if (localStorage.getItem("access-token") !== null) {
+    if (this.props.loggedInStatus) {
       return <Redirect to="/" />;
     }
     const { username, email, password1, password2 } = this.state;
