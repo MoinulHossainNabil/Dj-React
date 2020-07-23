@@ -1,13 +1,36 @@
 from rest_framework import status
-from .serializers import UserSerializer
 from rest_framework.views import APIView
-from django.contrib.auth.models import User
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
+from django.contrib.auth.models import User
+from .serializers import UserSerializer
+
+
+
+
+class MyTokenObtainSerilizer(TokenObtainPairSerializer):
+    # serializer_class = TokenObtainPairSerializer
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        refresh = self.get_token(self.user)
+        data['refresh'] = str(refresh)
+        data['access'] = str(refresh.access_token)
+        # Add your required response and other parameters here
+        data['username'] = self.user.username
+        data['user_id'] = self.user.pk
+        data['message'] = "login successful"
+
+        return data
+
+
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainSerilizer
 
 
 class UserView(APIView):

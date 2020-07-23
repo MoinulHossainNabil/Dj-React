@@ -1,5 +1,6 @@
 from rest_framework.generics import ListAPIView, ListCreateAPIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
+
 from .models import Job, Category
 from .serializers import JobSerializer, CategorySerializer, PostJobSerializer
 
@@ -17,7 +18,7 @@ class CategoryListView(ListAPIView):
 
 
 class JobPostCreateView(ListCreateAPIView):
-    permission_classes = (AllowAny,)
+    permission_classes = (IsAuthenticated, )
     serializer_class = PostJobSerializer
     queryset = Job.objects.all()
 
