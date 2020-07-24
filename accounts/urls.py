@@ -8,5 +8,5 @@ from .views import UserView, MyTokenObtainPairView
 urlpatterns = [
     path('register/', UserView.as_view()),
     path('login/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('refresh-token/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+    path('refresh_token/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
 ]
