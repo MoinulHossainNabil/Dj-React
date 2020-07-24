@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 import "./JobPostForm.css";
+import { CategoryContext } from "../ContexProviders/CategoryProvider";
 
 export default class JobPostForm extends Component {
+  static contextType = CategoryContext;
   constructor(props) {
     super(props);
 
@@ -35,28 +37,28 @@ export default class JobPostForm extends Component {
         Authorization: `Bearer ${token}`,
       },
     };
-    this.state.category = Number("1");
     const data = { ...this.state };
     data["posted_by"] = Number(localStorage.getItem("user_id"));
     console.log("data to be posted", data);
-    // axios
-    // .post("http://localhost:8000/api/post_job/", this.state, config)
-    // .then(respone => {
-    //   console.log("posted", respone.data)
-    // })
-    // .catch(e => {
-    //   console.log("Error", e)
-    // })
+    axios
+      .post("http://localhost:8000/api/post_job/", data, config)
+      .then((respone) => {
+        console.log("posted", respone.data);
+      })
+      .catch((e) => {
+        console.log("Error", e);
+      });
   };
-
-  componentDidMount() {
-    console.log("Job Post Mounted");
-  }
 
   render() {
     if (!this.props.loggedInStatus) {
       return <Redirect to="login" />;
     }
+    const category_list = this.context.category.map((cat) => (
+      <option key={cat.id} value={parseInt(cat.id)}>
+        {cat.job_category}
+      </option>
+    ));
     const {
       job_title,
       company_name,
@@ -114,14 +116,12 @@ export default class JobPostForm extends Component {
               id="inputCategory"
               className="form-control"
               name="category"
-              value={category}
+              value={category.id}
               onChange={this.handleChange}
               // required
             >
               <option>Choose...</option>
-              <option>IT And Telecommunication</option>
-              <option>Business Administration</option>
-              <option>Civing Engineering</option>
+              {category_list}
             </select>
           </div>
           <div className="form-group col-md-6">

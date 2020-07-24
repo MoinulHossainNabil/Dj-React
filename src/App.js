@@ -8,6 +8,7 @@ import HomePage from "./components/Home/HomePage";
 import Routes from "./components/Routers/Routes";
 import NavigationBar from "./components/Navbar/Navbar";
 import JobPostForm from "./components/JobPostForm/JobPostForm";
+import CategoryProvider from "./components/ContexProviders/CategoryProvider";
 
 class App extends Component {
   constructor(props) {
@@ -21,7 +22,6 @@ class App extends Component {
     this.handleLogin = this.handleLogin.bind(this);
   }
   handleLogin(value) {
-    // console.log("call after login successful", value)
     this.setState({ isUserLoggedIn: value });
     console.log("logged in");
   }
@@ -67,22 +67,27 @@ class App extends Component {
               />
             )}
           />
-          <Route
-            path="/post-job"
-            render={(props) => (
-              <JobPostForm
-                {...props}
-                loggedInStatus={this.state.isUserLoggedIn}
-              />
-            )}
-          />
-          <Route
-            path="/"
-            exact
-            render={(props) => (
-              <HomePage {...props} loggedInStatus={this.state.isUserLoggedIn} />
-            )}
-          />
+          <CategoryProvider>
+            <Route
+              path="/post-job"
+              render={(props) => (
+                <JobPostForm
+                  {...props}
+                  loggedInStatus={this.state.isUserLoggedIn}
+                />
+              )}
+            />
+            <Route
+              path="/"
+              exact
+              render={(props) => (
+                <HomePage
+                  {...props}
+                  loggedInStatus={this.state.isUserLoggedIn}
+                />
+              )}
+            />
+          </CategoryProvider>
         </div>
       </Router>
     );

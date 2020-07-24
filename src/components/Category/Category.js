@@ -1,27 +1,7 @@
 import React, { Component } from "react";
-import axios from "axios";
 export default class Category extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      category: [],
-    };
-  }
-  componentDidMount() {
-    axios
-      .get("http://localhost:8000/api/list_category/")
-      .then((response) => {
-        this.setState({ category: response.data });
-      })
-      .catch((e) => {
-        console.log(e);
-      });
-  }
-
   render() {
-    const { category } = this.state;
-    const listofCategory = category.map((cat) => (
+    const listofCategory = this.props.category_list.map((cat) => (
       <li className="col-md-3 col-sm-6 col-xs-6" key={cat.id}>
         <div className="jobsWrp">
           <div className="job-icon">
@@ -30,7 +10,7 @@ export default class Category extends Component {
           <div className="categoryName">
             <button
               onClick={() => {
-                this.props.categoryFilter(`${cat.job_category}`);
+                this.props.categoryFilter(`${cat.id}`);
               }}
             >
               {cat.job_category}

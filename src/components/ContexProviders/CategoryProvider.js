@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from 'axios'
 
 export const CategoryContext = React.createContext();
 
@@ -7,28 +8,18 @@ class CategoryProvider extends Component {
     super(props);
 
     this.state = {
-      category: [
-        {
-          id: 1,
-          name: "IT And Telecommunication",
-        },
-        {
-          id: 2,
-          name: "Business Administration",
-        },
-        {
-          id: 3,
-          name: "Civil Engineering",
-        },
-        {
-          id: 4,
-          name: "Mechanical Civil Engineering",
-        },
-      ],
+      category: [],
+      dummy: "this is dummy"
     };
   }
   componentDidMount() {
-    console.log("Provider called");
+    axios.get("http://localhost:8000/api/list_category/")
+    .then(response => {
+      this.setState({category: response.data})
+    })
+    .catch(e => {
+      console.log(e)
+    })
   }
 
   render() {

@@ -3,8 +3,11 @@ import "./HomePage.css";
 import Category from "../Category/Category";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { CategoryContext } from "../ContexProviders/CategoryProvider";
 
 class HomePage extends Component {
+  static contextType = CategoryContext;
+
   constructor(props) {
     super(props);
 
@@ -16,18 +19,28 @@ class HomePage extends Component {
   }
   componentDidMount() {
     axios
-    .get("http://localhost:8000/api/list_job/")
-    .then(response => {
-      console.log(response.data)
-      this.setState({job_list: response.data})
-    })
-    .catch(e => {
-      console.log(e)
-    })
+      .get("http://localhost:8000/api/list_job/")
+      .then((response) => {
+        console.log(response.data);
+        this.setState({ job_list: response.data });
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
-  filterByCategory(category_name) {
-    console.log(`filter by category ${category_name}`);
+  filterByCategory(category_id) {
+    axios
+      .get(`http://localhost:8000/api/filter_jobs_by_category/${category_id}/`)
+      .then((respone) => {
+        this.setState({ job_list: respone.data });
+        document.getElementById(
+          "filtered_jobs"
+        ).innerHTML = `Total ${respone.data.length}`;
+      })
+      .catch((e) => {
+        console.log("filter error", e);
+      });
   }
   render() {
     const { job_list } = this.state;
@@ -64,8 +77,17 @@ class HomePage extends Component {
 
     return (
       <div className="main-container">
-        <Category categoryFilter={this.filterByCategory} />
-        <ul className="job-list">{listofJobs}</ul>
+        <Category
+          categoryFilter={this.filterByCategory}
+          category_list={this.context.category}
+        />
+
+        <ul className="job-list">
+          <div>
+            <h3 id="filtered_jobs"></h3>
+          </div>
+          {listofJobs}
+        </ul>
       </div>
     );
   }
