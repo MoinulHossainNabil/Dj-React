@@ -8,6 +8,7 @@ import HomePage from "./components/Home/HomePage";
 import Routes from "./components/Routers/Routes";
 import NavigationBar from "./components/Navbar/Navbar";
 import JobPostForm from "./components/JobPostForm/JobPostForm";
+import JobDetail from './components/JobDetail/JobDetail'
 import CategoryProvider from "./components/ContexProviders/CategoryProvider";
 
 class App extends Component {
@@ -72,6 +73,15 @@ class App extends Component {
               path="/post-job"
               render={(props) => (
                 <JobPostForm
+                  {...props}
+                  loggedInStatus={this.state.isUserLoggedIn}
+                />
+              )}
+            />
+            <Route
+              path="/job/:job_id"
+              render={(props) => (
+                <JobDetail
                   {...props}
                   loggedInStatus={this.state.isUserLoggedIn}
                 />
