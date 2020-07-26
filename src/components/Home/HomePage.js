@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./HomePage.css";
 import Category from "../Category/Category";
+import Pagination from "../Pagination/Pagination";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { CategoryContext } from "../ContexProviders/CategoryProvider";
@@ -13,16 +14,22 @@ class HomePage extends Component {
 
     this.state = {
       job_list: [],
+      loading: false,
+      currentPage: 1,
+      postsPerPage: 3,
       category: [],
     };
     this.filterByCategory = this.filterByCategory.bind(this);
+    this.paginate = this.paginate.bind(this);
   }
   componentDidMount() {
     axios
       .get("http://localhost:8000/api/list_job/")
       .then((response) => {
         console.log(response.data);
+        this.setState({ loading: true });
         this.setState({ job_list: response.data });
+        this.setState({ loading: false });
       })
       .catch((e) => {
         console.log(e);
@@ -42,9 +49,18 @@ class HomePage extends Component {
         console.log("filter error", e);
       });
   }
+
+  paginate(page) {
+    this.setState({ currentPage: page });
+  }
+
   render() {
-    const { job_list } = this.state;
-    const listofJobs = job_list.map((job) => (
+    const { job_list, loading, currentPage, postsPerPage } = this.state;
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentPosts = job_list.slice(indexOfFirstPost, indexOfLastPost);
+
+    const listofJobs = currentPosts.map((job) => (
       <li className="single-job" key={job.id}>
         <div>
           <Link to={`job/${job.id}`}>
@@ -84,9 +100,14 @@ class HomePage extends Component {
 
         <ul className="job-list">
           <div>
-            <h3 id="filtered_jobs"></h3>
+            <p id="filtered_jobs"></p>
           </div>
           {listofJobs}
+          <Pagination
+            postsPerPage={postsPerPage}
+            totalPosts={job_list.length}
+            paginate={this.paginate}
+          />
         </ul>
       </div>
     );
