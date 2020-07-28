@@ -1,3 +1,4 @@
+from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -41,3 +42,16 @@ class FilterByCategoryView(APIView):
             return Response(context)
         except Exception as e:
             return Response({"Error": f'e'})
+
+
+class SearchByView(ListAPIView):
+    permission_classes = (AllowAny, )
+    serializer_class = JobSerializer
+
+    def get_queryset(self):
+        search_by = self.kwargs['key']
+        queryset = Job.objects.filter(
+            Q(category__job_category__icontains=search_by) |
+            Q(job_title__icontains=search_by)
+        )
+        return queryset

@@ -1,6 +1,6 @@
 from django.urls import path, include
 from .views import (JobListView, CategoryListView, JobPostCreateView,
-                    SingleJobView, FilterByCategoryView)
+                    SingleJobView, FilterByCategoryView, SearchByView)
 
 urlpatterns = [
     path('list_job/',
@@ -13,4 +13,5 @@ urlpatterns = [
          SingleJobView.as_view(), name="single_job"),
     path('filter_jobs_by_category/<int:category_id>/',
          FilterByCategoryView.as_view(), name="category_filter"),
+    path('search_by_key/<key>/', SearchByView.as_view(), name="search"),
 ]
