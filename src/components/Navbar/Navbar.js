@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import "./Navbar.css";
 
 export class NavigationBar extends Component {
@@ -8,6 +8,7 @@ export class NavigationBar extends Component {
 
     this.state = {
       isUserAuthenticated: false,
+      searchBy: "",
     };
   }
   login = (value) => {
@@ -19,6 +20,11 @@ export class NavigationBar extends Component {
     this.setState({ isUserAuthenticated: false });
     console.log("logged out");
   };
+
+  handleSearch = (e) => {
+    // console.log(this.state.searchBy)
+    this.setState({searchBy: e.target.value})
+  }
   render() {
     const navigationBar = this.props.loggedInStatus ? (
       <nav>
@@ -49,6 +55,18 @@ export class NavigationBar extends Component {
           <Link to="/login">
             <li>Login</li>
           </Link>
+          <form>
+            <input
+              name="key"
+              value={this.state.searchBy}
+              onChange={this.handleSearch}
+              placeholder="search by position/category"
+            >
+            </input>
+            <Link to={`/search/${this.state.searchBy}`}>
+            <button>Search</button>
+            </Link>
+          </form>
         </ul>
       </nav>
     );

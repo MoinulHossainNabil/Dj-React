@@ -9,13 +9,21 @@ class CategoryProvider extends Component {
 
     this.state = {
       category: [],
-      dummy: "this is dummy"
+      jobs: []
     };
   }
   componentDidMount() {
     axios.get("http://localhost:8000/api/list_category/")
     .then(response => {
+      console.log("category list", response.data)
       this.setState({category: response.data})
+    })
+    .catch(e => {
+      console.log(e)
+    })
+    axios.get("http://localhost:8000/api/list_job/")
+    .then(response => {
+      this.setState({jobs: response.data})
     })
     .catch(e => {
       console.log(e)

@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+import CKEditor from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import axios from "axios";
 import "./JobPostForm.css";
+import ReactHtmlParser from "react-html-parser";
 import { CategoryContext } from "../ContexProviders/CategoryProvider";
 
 export default class JobPostForm extends Component {
@@ -26,6 +29,7 @@ export default class JobPostForm extends Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
+    console.log(this.state);
   };
 
   handleFormSubmit = (e) => {
@@ -40,14 +44,20 @@ export default class JobPostForm extends Component {
     const data = { ...this.state };
     data["posted_by"] = Number(localStorage.getItem("user_id"));
     console.log("data to be posted", data);
-    axios
-      .post("http://localhost:8000/api/post_job/", data, config)
-      .then((respone) => {
-        console.log("posted", respone.data);
-      })
-      .catch((e) => {
-        console.log("Error", e);
-      });
+    // axios
+    //   .post("http://localhost:8000/api/post_job/", data, config)
+    //   .then((respone) => {
+    //     console.log("posted", respone.data);
+    //   })
+    //   .catch((e) => {
+    //     console.log("Error", e);
+    //   });
+  };
+  handleJobDescription = (event, editor) => {
+    const data = editor.getData();
+    console.log(editor)
+    this.setState({job_description: data})
+    console.log("ckeditor data", data);
   };
 
   render() {
@@ -98,17 +108,12 @@ export default class JobPostForm extends Component {
               // required
             />
           </div>
+          <label htmlFor="inputJobDescription">Job Description</label>
           <div className="form-group col-md-6">
-            <label htmlFor="jobDescription">Job Description</label>
-
-            <textarea
-              className="form-control"
-              id="jobDescription"
-              rows="3"
-              name="job_description"
-              value={job_description}
-              onChange={this.handleChange}
-            ></textarea>
+            <CKEditor
+            editor={ClassicEditor}
+            onChange={this.handleJobDescription}
+             />
           </div>
           <div className="form-group col-md-6">
             <label htmlFor="inputCategory">Category</label>

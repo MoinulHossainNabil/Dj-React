@@ -1,12 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from ckeditor.fields import RichTextField
+
 
 class Job(models.Model):
     job_title = models.CharField(max_length=40)
     company_name = models.CharField(max_length=80)
     posted_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    job_description = models.TextField(blank=True, null=True, default="N/A")
+    job_description = RichTextField(blank=True, null=True, default="N/A")
     category = models.ForeignKey('Category', on_delete=models.CASCADE)
     experience = models.IntegerField()
     address = models.CharField(max_length=100, blank=True, null=True, default="N/A")

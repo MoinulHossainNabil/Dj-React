@@ -39,7 +39,7 @@ class LoginForm extends Component {
         this.props.handleLogin(true);
       })
       .catch((e) => {
-        console.log("No active user found");
+        console.log(e.response);
       });
   };
 

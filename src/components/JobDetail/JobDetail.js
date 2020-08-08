@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import './JobDetail.css'
+import ReactHtmlParser from 'react-html-parser'
 
 export default class JobDetail extends Component {
   constructor(props) {
@@ -76,6 +77,10 @@ export default class JobDetail extends Component {
             <strong>Deadline: </strong>
             {new Date(deadline).toDateString()}
           </p>
+        </div>
+        <div>
+            <strong>Job Description </strong>
+            {ReactHtmlParser(job_description)}
         </div>
       </li>
     );

@@ -5,10 +5,10 @@ import { Route, Redirect } from "react-router-dom";
 import RegisterForm from "./components/Register/RegisterForm";
 import LoginForm from "./components/Login/LoginForm";
 import HomePage from "./components/Home/HomePage";
-import Routes from "./components/Routers/Routes";
 import NavigationBar from "./components/Navbar/Navbar";
 import JobPostForm from "./components/JobPostForm/JobPostForm";
 import JobDetail from './components/JobDetail/JobDetail'
+import SearchPosts from './components/SearchPosts/SearchPosts'
 import CategoryProvider from "./components/ContexProviders/CategoryProvider";
 
 class App extends Component {
@@ -32,7 +32,6 @@ class App extends Component {
     console.log("logged out");
   };
   componentDidMount() {
-    console.log("app did mount");
     if (localStorage.getItem("access-token")) {
       this.setState({ isUserLoggedIn: true });
     } else {
@@ -49,6 +48,16 @@ class App extends Component {
           handleLogout={this.handleLogout}
         />
         <div className="App">
+        <Route
+            path="/search/:key"
+            render={(props) => (
+              <SearchPosts
+                {...props}
+                loggedInStatus={this.state.isUserLoggedIn}
+                handleLogin={this.handleLogin}
+              />
+            )}
+          />
           <Route
             path="/register"
             render={(props) => (
@@ -68,6 +77,7 @@ class App extends Component {
               />
             )}
           />
+          
           <CategoryProvider>
             <Route
               path="/post-job"

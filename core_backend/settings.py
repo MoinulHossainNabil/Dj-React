@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     # Third Party Apps
     'rest_framework',
     'rest_framework_swagger',
+    'ckeditor',
     # Created
     'core_apis',
     'accounts',

@@ -17,7 +17,6 @@ class HomePage extends Component {
       loading: false,
       currentPage: 1,
       postsPerPage: 3,
-      category: [],
     };
     this.filterByCategory = this.filterByCategory.bind(this);
     this.paginate = this.paginate.bind(this);
@@ -26,7 +25,6 @@ class HomePage extends Component {
     axios
       .get("http://localhost:8000/api/list_job/")
       .then((response) => {
-        console.log(response.data);
         this.setState({ loading: true });
         this.setState({ job_list: response.data });
         this.setState({ loading: false });

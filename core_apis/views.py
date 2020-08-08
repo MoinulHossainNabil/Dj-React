@@ -26,6 +26,7 @@ class JobPostCreateView(ListCreateAPIView):
     queryset = Job.objects.all()
 
     def post(self, request, *args, **kwargs):
+        print(request.data)
         return self.create(request, *args, **kwargs)
 
 
