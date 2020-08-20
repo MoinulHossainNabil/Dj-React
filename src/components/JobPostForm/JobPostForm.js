@@ -44,19 +44,19 @@ export default class JobPostForm extends Component {
     const data = { ...this.state };
     data["posted_by"] = Number(localStorage.getItem("user_id"));
     console.log("data to be posted", data);
-    // axios
-    //   .post("http://localhost:8000/api/post_job/", data, config)
-    //   .then((respone) => {
-    //     console.log("posted", respone.data);
-    //   })
-    //   .catch((e) => {
-    //     console.log("Error", e);
-    //   });
+    axios
+      .post("http://localhost:8000/api/post_job/", data, config)
+      .then((respone) => {
+        console.log("posted", respone.data);
+      })
+      .catch((e) => {
+        console.log("Error", e);
+      });
   };
   handleJobDescription = (event, editor) => {
     const data = editor.getData();
-    console.log(editor)
-    this.setState({job_description: data})
+    console.log(editor);
+    this.setState({ job_description: data });
     console.log("ckeditor data", data);
   };
 
@@ -81,7 +81,7 @@ export default class JobPostForm extends Component {
     } = this.state;
     return (
       <div>
-        <form className="jobPostForm">
+        <form className="jobPostForm" onSubmit={this.handleFormSubmit}>
           <div className="form-group col-md-6">
             <label htmlFor="jobTitle">Job Title</label>
             <input
@@ -92,7 +92,7 @@ export default class JobPostForm extends Component {
               className="form-control"
               id="jobTitle"
               placeholder="Job Title"
-              // required
+              required
             />
           </div>
           <div className="form-group col-md-6">
@@ -105,15 +105,15 @@ export default class JobPostForm extends Component {
               className="form-control"
               id="inputCompany"
               placeholder="Company Name"
-              // required
+              required
             />
           </div>
           <label htmlFor="inputJobDescription">Job Description</label>
           <div className="form-group col-md-6">
             <CKEditor
-            editor={ClassicEditor}
-            onChange={this.handleJobDescription}
-             />
+              editor={ClassicEditor}
+              onChange={this.handleJobDescription}
+            />
           </div>
           <div className="form-group col-md-6">
             <label htmlFor="inputCategory">Category</label>
@@ -123,7 +123,7 @@ export default class JobPostForm extends Component {
               name="category"
               value={category.id}
               onChange={this.handleChange}
-              // required
+              required
             >
               <option>Choose...</option>
               {category_list}
@@ -138,7 +138,7 @@ export default class JobPostForm extends Component {
               onChange={this.handleChange}
               className="form-control"
               id="inputExperience"
-              // required
+              required
             />
           </div>
           <div className="form-group col-md-6">
@@ -162,6 +162,7 @@ export default class JobPostForm extends Component {
               onChange={this.handleChange}
               className="form-control"
               id="inputDeadline"
+              required
             />
           </div>
           <div className="form-group col-md-6">
@@ -180,9 +181,7 @@ export default class JobPostForm extends Component {
             </select>
           </div>
           <div className="form-group col-md-6">
-            <button className="btn btn-primary" onClick={this.handleFormSubmit}>
-              Post
-            </button>
+            <button className="btn btn-primary">Post</button>
           </div>
         </form>
       </div>

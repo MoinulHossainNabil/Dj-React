@@ -19,7 +19,28 @@ class LoginForm extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  createAlert(message, type, id_of_alert_tag) {
+    let alert_location = document.querySelector(`#${id_of_alert_tag}`);
+    alert_location.setAttribute("class", `alert alert-${type}`);
+    let link = document.createElement("a");
+    let link_id = "close-alert";
+    let link_text = document.createTextNode("  " + "X");
+    link.setAttribute("href", "#");
+    link.setAttribute("id", link_id);
+    link.appendChild(link_text);
+    alert_location.innerHTML = message;
+    alert_location.appendChild(link);
+    alert_location.style.display = "block";
+    let link_action = document.querySelector(`#${link_id}`);
+    link_action.addEventListener(
+      "click",
+      () =>
+        (document.querySelector("#login-error-header").style.display = "none")
+    );
+  }
+
   handleSubmit = (e) => {
+    e.preventDefault();
     const { username, password } = this.state;
     const credentials = {
       username: username,
@@ -39,7 +60,11 @@ class LoginForm extends Component {
         this.props.handleLogin(true);
       })
       .catch((e) => {
-        console.log(e.response);
+        this.createAlert(
+          "Unautherized Credentials",
+          "warning",
+          "login-error-header"
+        );
       });
   };
 
@@ -50,8 +75,9 @@ class LoginForm extends Component {
     }
     return (
       <div className="login-container">
-        <Form>
+        <Form onSubmit={this.handleSubmit}>
           <h1 className="ui centered">Please Fill Up The Form</h1>
+          <h6 id="login-error-header"></h6>
           <Form.Field>
             <label>Username</label>
             <input
@@ -71,12 +97,10 @@ class LoginForm extends Component {
               value={password}
               placeholder="Password"
               onChange={this.handleChange}
-              // required
+              required
             />
           </Form.Field>
-          <Button primary onClick={this.handleSubmit}>
-            Login{" "}
-          </Button>
+          <Button primary>Login </Button>
         </Form>
       </div>
     );

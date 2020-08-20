@@ -7,9 +7,10 @@ import LoginForm from "./components/Login/LoginForm";
 import HomePage from "./components/Home/HomePage";
 import NavigationBar from "./components/Navbar/Navbar";
 import JobPostForm from "./components/JobPostForm/JobPostForm";
-import JobDetail from './components/JobDetail/JobDetail'
-import SearchPosts from './components/SearchPosts/SearchPosts'
+import JobDetail from "./components/JobDetail/JobDetail";
+import SearchPosts from "./components/SearchPosts/SearchPosts";
 import CategoryProvider from "./components/ContexProviders/CategoryProvider";
+import PracticeComponent from "./components/PracticeComponent/PracticeComponent";
 
 class App extends Component {
   constructor(props) {
@@ -48,7 +49,7 @@ class App extends Component {
           handleLogout={this.handleLogout}
         />
         <div className="App">
-        <Route
+          <Route
             path="/search/:key"
             render={(props) => (
               <SearchPosts
@@ -77,7 +78,7 @@ class App extends Component {
               />
             )}
           />
-          
+
           <CategoryProvider>
             <Route
               path="/post-job"
@@ -102,6 +103,15 @@ class App extends Component {
               exact
               render={(props) => (
                 <HomePage
+                  {...props}
+                  loggedInStatus={this.state.isUserLoggedIn}
+                />
+              )}
+            />
+            <Route
+              path="/autocomplete"
+              render={(props) => (
+                <PracticeComponent
                   {...props}
                   loggedInStatus={this.state.isUserLoggedIn}
                 />

@@ -25,12 +25,13 @@ export class NavigationBar extends Component {
     // console.log(this.state.searchBy)
     this.setState({searchBy: e.target.value})
   }
+
   render() {
     const navigationBar = this.props.loggedInStatus ? (
       <nav>
         <ul>
           <Link to="/">
-            <li>Home</li>
+            <li onClick={this.reload}>Home</li>
           </Link>
           <Link to="/post-job">
             <li>Post Job</li>
@@ -38,13 +39,25 @@ export class NavigationBar extends Component {
           <Link to="/" onClick={this.props.handleLogout}>
             <li>Logout</li>
           </Link>
+          <form>
+            <input
+              name="key"
+              value={this.state.searchBy}
+              onChange={this.handleSearch}
+              placeholder="search by position/category"
+            >
+            </input>
+            <Link to={`/search/${this.state.searchBy}`}>
+            <button>Search</button>
+            </Link>
+          </form>
         </ul>
       </nav>
     ) : (
       <nav>
         <ul>
           <Link to="/">
-            <li>Home</li>
+            <li onClick={this.reload}>Home</li>
           </Link>
           <Link to="/post-job">
             <li>Post Job</li>

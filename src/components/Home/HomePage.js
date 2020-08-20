@@ -35,8 +35,14 @@ class HomePage extends Component {
   }
 
   filterByCategory(category_id) {
+    let url = "";
+    if (category_id == "-1") {
+      url = "http://localhost:8000/api/list_job/";
+    } else {
+      url = `http://localhost:8000/api/filter_jobs_by_category/${category_id}/`;
+    }
     axios
-      .get(`http://localhost:8000/api/filter_jobs_by_category/${category_id}/`)
+      .get(url)
       .then((respone) => {
         this.setState({ job_list: respone.data });
         document.getElementById(

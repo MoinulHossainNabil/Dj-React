@@ -55,7 +55,7 @@ class RegisterForm extends Component {
     const { username, email, password1, password2 } = this.state;
     return (
       <div className="register-container">
-        <Form>
+        <Form onSubmit={this.handleSubmit}>
           <h1 className="ui centered">Please Fill Up The Form</h1>
           <Form.Field>
             <label>Username</label>
@@ -68,15 +68,14 @@ class RegisterForm extends Component {
               required
             />
           </Form.Field>
-          <Form.Field>
+          <Form.Field type="email">
             <label>Email</label>
             <input
-              type="email"
               name="email"
               value={email}
               placeholder="Email Address"
               onChange={this.handleChange}
-              // required
+              required
             />
           </Form.Field>
           <Form.Field>
@@ -87,7 +86,7 @@ class RegisterForm extends Component {
               value={password1}
               placeholder="Password"
               onChange={this.handleChange}
-              // required
+              required
             />
           </Form.Field>
           <Form.Field>
@@ -97,12 +96,10 @@ class RegisterForm extends Component {
               name="password2"
               value={password2}
               onChange={this.handleChange}
-              // required
+              required
             />
           </Form.Field>
-          <Button primary onClick={this.handleSubmit}>
-            Register{" "}
-          </Button>
+          <Button primary>Register </Button>
         </Form>
       </div>
     );
